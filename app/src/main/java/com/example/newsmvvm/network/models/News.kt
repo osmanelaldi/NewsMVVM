@@ -2,6 +2,7 @@ package com.example.newsmvvm.network.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 
 @Entity(
@@ -18,5 +19,6 @@ data class News(
     val type: String,
     val webPublicationDate: String,
     val webTitle: String,
-    val webUrl: String
-)
+    val webUrl: String,
+    val isSaved : Boolean = false
+) : Serializable

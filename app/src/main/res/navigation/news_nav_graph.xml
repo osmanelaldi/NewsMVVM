@@ -42,7 +42,11 @@
     <fragment
         android:id="@+id/webFragment"
         android:name="com.example.newsmvvm.ui.fragments.WebFragment"
-        android:label="WebFragment" />
+        android:label="WebFragment" >
+        <argument
+            android:name="news"
+            app:argType="com.example.newsmvvm.network.models.News" />
+    </fragment>
     <fragment
         android:id="@+id/categoriesFragment"
         android:name="com.example.newsmvvm.ui.fragments.CategoriesFragment"

@@ -27,8 +27,11 @@ class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>()
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val news = this.differ.currentList[position]
-        holder.itemView.tv_title.text = news.webTitle
-        holder.itemView.tv_section.text = news.sectionName
+        holder.itemView.apply {
+            tv_title.text = news.webTitle
+            tv_section.text = news.sectionName
+            setOnClickListener { onItemOnClickListener?.let { it(news) } }
+        }
     }
 
     val differ  = AsyncListDiffer(this, differCallBack)
