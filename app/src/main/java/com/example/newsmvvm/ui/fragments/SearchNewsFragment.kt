@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.newsmvvm.R
 import com.example.newsmvvm.adapters.NewsAdapter
 import com.example.newsmvvm.ui.MainActivity
@@ -45,12 +47,16 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
                     if(editable.toString().isNotEmpty()){
                         viewModel.searchNews(editable.toString())
                     }else{
-                        newsAdapter.differ.currentList.clear()
+                        viewModel.clearSearch()
                     }
                 }
             }
         }
 
+        arguments?.get(getString(R.string.searchTerm))?.let {
+            viewModel.clearSearch()
+            et_search_news.setText(it as String)
+        }
 
         viewModel.searchedNews.observe(viewLifecycleOwner, Observer { response->
             when(response){

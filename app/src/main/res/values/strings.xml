@@ -7,5 +7,6 @@
     <string name="news_saved_successfully">News saved successfully</string>
     <string name="news_deleted_successfully">News deleted successfully</string>
     <string name="news">news</string>
+    <string name="searchTerm">searchTerm</string>
     <string name="undo">Undo</string>
 </resources>
