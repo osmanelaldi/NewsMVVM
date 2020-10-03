@@ -4,4 +4,8 @@
     <string name="latest_news">Latest News</string>
     <string name="search_news">Search News</string>
     <string name="saved_news">Saved News</string>
+    <string name="news_saved_successfully">News saved successfully</string>
+    <string name="news_deleted_successfully">News deleted successfully</string>
+    <string name="news">news</string>
+    <string name="undo">Undo</string>
 </resources>

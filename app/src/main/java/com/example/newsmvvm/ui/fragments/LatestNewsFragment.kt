@@ -26,7 +26,7 @@ class LatestNewsFragment : Fragment(R.layout.fragment_latest_news) {
 
         newsAdapter.setOnItemClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("news",it)
+            bundle.putSerializable(getString(R.string.news),it)
             findNavController().navigate(R.id.action_latestNewsFragment_to_webFragment, bundle)
         }
 

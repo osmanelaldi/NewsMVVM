@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsmvvm.network.Repository
 import com.example.newsmvvm.network.models.ErrorResponse
+import com.example.newsmvvm.network.models.News
 import com.example.newsmvvm.network.models.NewsResponse
 import com.example.newsmvvm.network.models.NewsResponseWrapper
 import com.haroldadmin.cnradapter.NetworkResponse
@@ -20,6 +21,9 @@ class NewsViewModel (val repository: Repository) : ViewModel(){
 
     val searchedNews : MutableLiveData<NetworkResponse<NewsResponseWrapper,ErrorResponse>> = MutableLiveData()
     var searchedNewsPage = 1
+
+    val savedNews : MutableLiveData<NewsResponseWrapper> = MutableLiveData()
+    var savedNewsPage = 1
 
     init {
         getLatestNews()
@@ -44,6 +48,17 @@ class NewsViewModel (val repository: Repository) : ViewModel(){
             is NetworkResponse.ServerError -> {}
             is NetworkResponse.UnknownError -> {}
         }
+    }
+
+    fun getSavedNews() = repository.getSavedNews()
+    fun deleteNews(news : News) = viewModelScope.launch {
+        news.isSaved = false
+        repository.deleteNewsItem(news)
+    }
+
+    fun saveNews(news : News) = viewModelScope.launch {
+        news.isSaved = true
+        repository.insertOrUpdateNews(news)
     }
 
 

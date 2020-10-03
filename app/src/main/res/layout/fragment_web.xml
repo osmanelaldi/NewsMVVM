@@ -9,11 +9,12 @@
         android:layout_height="match_parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_marginBottom="30dp"
         android:layout_marginEnd="30dp"
-        android:backgroundTint="@color/appThemeRed"
+        android:backgroundTint="@drawable/bg_save_button"
         android:src="@drawable/ic_save"/>
 </FrameLayout>

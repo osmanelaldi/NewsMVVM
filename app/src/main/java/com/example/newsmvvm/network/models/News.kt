@@ -20,5 +20,5 @@ data class News(
     val webPublicationDate: String,
     val webTitle: String,
     val webUrl: String,
-    val isSaved : Boolean = false
+    var isSaved : Boolean = false
 ) : Serializable
