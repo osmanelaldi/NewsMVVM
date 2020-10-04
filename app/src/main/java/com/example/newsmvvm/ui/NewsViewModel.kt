@@ -5,61 +5,62 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsmvvm.network.Repository
 import com.example.newsmvvm.network.models.*
+import com.example.newsmvvm.util.ErrorHandler
 import com.haroldadmin.cnradapter.NetworkResponse
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 
 class NewsViewModel (val repository: Repository) : ViewModel(){
 
-    val latestNews : MutableLiveData<NetworkResponse<NewsResponseWrapper,ErrorResponse>> = MutableLiveData()
+    val error : MutableLiveData<String?> = MutableLiveData()
+
+    val latestNews : MutableLiveData<NewsResponseWrapper> = MutableLiveData()
     var latestNewsPage = 1
 
-    var searchedNews : MutableLiveData<NetworkResponse<NewsResponseWrapper,ErrorResponse>> = MutableLiveData()
+    var searchedNews : MutableLiveData<NewsResponseWrapper> = MutableLiveData()
     var searchedNewsPage = 1
 
-    val categories : MutableLiveData<NetworkResponse<CategoriesResponseWrapper,ErrorResponse>> = MutableLiveData()
-
-    init {
-        getLatestNews()
-        getCategories()
-    }
+    val categories : MutableLiveData<CategoriesResponseWrapper> = MutableLiveData()
 
     fun clearSearch(){
         searchedNews = MutableLiveData()
     }
 
-    private fun getLatestNews() = viewModelScope.launch {
+    fun dismissError(){
+        error.postValue(null)
+    }
+
+    fun getLatestNews() = viewModelScope.launch {
         when(val response = repository.getNewsByDate(getNow())){
             is NetworkResponse.Success ->{
-                latestNews.postValue(response)
+                latestNews.postValue(response.body)
             }
-            is NetworkResponse.NetworkError -> {}
-            is NetworkResponse.ServerError -> {}
-            is NetworkResponse.UnknownError -> {}
+            is NetworkResponse.NetworkError -> error.postValue(ErrorHandler.handleError(response))
+            is NetworkResponse.ServerError -> error.postValue(ErrorHandler.handleError(response))
+            is NetworkResponse.UnknownError -> error.postValue(ErrorHandler.handleError(response))
         }
     }
 
     fun searchNews(searchTerm : String) = viewModelScope.launch {
         when(val response = repository.searchNews(searchTerm)){
             is NetworkResponse.Success ->{
-                searchedNews.postValue(response)
+                searchedNews.postValue(response.body)
             }
-            is NetworkResponse.NetworkError -> {}
-            is NetworkResponse.ServerError -> {}
-            is NetworkResponse.UnknownError -> {}
+            is NetworkResponse.NetworkError -> error.postValue(ErrorHandler.handleError(response))
+            is NetworkResponse.ServerError -> error.postValue(ErrorHandler.handleError(response))
+            is NetworkResponse.UnknownError -> error.postValue(ErrorHandler.handleError(response))
         }
     }
 
-    private fun getCategories() = viewModelScope.launch {
+    fun getCategories() = viewModelScope.launch {
         when(val response = repository.getCategories()){
             is NetworkResponse.Success ->{
-                categories.postValue(response)
+                categories.postValue(response.body)
             }
-            is NetworkResponse.NetworkError -> {}
-            is NetworkResponse.ServerError -> {}
-            is NetworkResponse.UnknownError -> {}
+            is NetworkResponse.NetworkError -> error.postValue(ErrorHandler.handleError(response))
+            is NetworkResponse.ServerError -> error.postValue(ErrorHandler.handleError(response))
+            is NetworkResponse.UnknownError -> error.postValue(ErrorHandler.handleError(response))
         }
     }
 

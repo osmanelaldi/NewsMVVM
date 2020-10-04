@@ -30,15 +30,15 @@ class LatestNewsFragment : Fragment(R.layout.fragment_latest_news) {
             findNavController().navigate(R.id.action_latestNewsFragment_to_webFragment, bundle)
         }
 
-        viewModel.latestNews.observe(viewLifecycleOwner, Observer { response ->
-            when(response) {
-                is NetworkResponse.Success -> {
-                    newsAdapter.differ.submitList(response.body.response.news)
-                }
-            }
+        viewModel.searchedNews.observe(viewLifecycleOwner, Observer { wrapper->
+            newsAdapter.differ.submitList(wrapper.response.news)
         })
 
+        viewModel.error.observe(viewLifecycleOwner, Observer {message->
+            (activity as MainActivity).showError(message)
+        })
 
+        viewModel.getLatestNews()
     }
 
 }

@@ -34,12 +34,14 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
             layoutManager = GridLayoutManager(context, 3)
         }
 
-        viewModel.categories.observe(viewLifecycleOwner, Observer {response->
-            when(response){
-                is NetworkResponse.Success->{
-                    categoriesAdapter.differ.submitList(response.body.response.results)
-                }
-            }
+        viewModel.categories.observe(viewLifecycleOwner, Observer {wrapper->
+            categoriesAdapter.differ.submitList(wrapper.response.results)
         })
+
+        viewModel.error.observe(viewLifecycleOwner, Observer {message->
+            (activity as MainActivity).showError(message)
+        })
+
+        viewModel.getCategories()
     }
 }

@@ -58,13 +58,12 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
             et_search_news.setText(it as String)
         }
 
-        viewModel.searchedNews.observe(viewLifecycleOwner, Observer { response->
-            when(response){
-                is NetworkResponse.Success ->{
-                    newsAdapter.differ.submitList(response.body.response.news)
-                }
-            }
+        viewModel.searchedNews.observe(viewLifecycleOwner, Observer { wrapper->
+            newsAdapter.differ.submitList(wrapper.response.news)
+        })
 
+        viewModel.error.observe(viewLifecycleOwner, Observer {message->
+            (activity as MainActivity).showError(message)
         })
     }
 
