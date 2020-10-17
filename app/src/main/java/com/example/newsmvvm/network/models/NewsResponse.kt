@@ -8,7 +8,7 @@ data class NewsResponse(
     val pageSize: Int,
     val pages: Int,
     @SerializedName("results")
-    val news: List<News>,
+    val news: ArrayList<News>,
     val startIndex: Int,
     val status: String,
     val total: Int,

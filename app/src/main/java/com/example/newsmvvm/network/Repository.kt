@@ -5,7 +5,7 @@ import com.example.newsmvvm.network.models.News
 
 class Repository ( val db : NewsDatabase){
 
-    suspend fun getNewsByDate(date : String) = Api.client.getNewsByDate(date)
+    suspend fun getNewsByDate(date : String, pageSize : Int = 10, page : Int) = Api.client.getNewsByDate(date,pageSize,page)
 
     suspend fun searchNews(searchTerm : String) = Api.client.searchNews(searchTerm)
 

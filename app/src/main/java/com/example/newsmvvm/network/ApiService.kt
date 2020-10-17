@@ -8,7 +8,10 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("search")
-    suspend fun getNewsByDate(@Query("published" ) date : String) : NetworkResponse<NewsResponseWrapper,ErrorResponse>
+    suspend fun getNewsByDate(
+        @Query("published" ) date : String,
+        @Query("page-size" ) pageSize : Int,
+        @Query("page" ) page : Int) : NetworkResponse<NewsResponseWrapper,ErrorResponse>
 
     @GET("search")
     suspend fun searchNews(@Query("q") searchTerm : String) : NetworkResponse<NewsResponseWrapper,ErrorResponse>
